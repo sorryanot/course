@@ -1,11 +1,11 @@
-package addressbook;
+package addressbook.model;
 
-public class SimpleData {
+public class ContactData {
     private final String firstName;
     private final String lastName;
     private final String email;
 
-    public SimpleData(String firstName, String lastName, String email) {
+    public ContactData(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
