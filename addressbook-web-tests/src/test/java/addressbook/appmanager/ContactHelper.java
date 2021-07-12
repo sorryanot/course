@@ -4,28 +4,27 @@ import addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ContactHelper {
-    private WebDriver wd;
+public class ContactHelper extends HelperBase{
 
     public ContactHelper(WebDriver wd) {
-        this.wd=wd;
+        super(wd);
     }
 
     public void submitContactForm() {
-        wd.findElement(By.name("submit")).click();
+        click(By.name("submit"));
     }
 
     public void fillContactForm(ContactData simpleData) {
-        wd.findElement(By.name("firstname")).sendKeys(simpleData.getFirstName());
-        wd.findElement(By.name("lastname")).sendKeys(simpleData.getLastName());
-        wd.findElement(By.name("email")).sendKeys(simpleData.getEmail());
+        type(By.name("firstname"),simpleData.getFirstName());
+        type(By.name("lastname"),simpleData.getLastName());
+        type(By.name("email"),simpleData.getEmail());
     }
 
     public void goToAddNewContactPage() {
-        wd.findElement(By.linkText("ADD_NEW")).click();
+        click(By.linkText("ADD_NEW"));
     }
     public void deleteSelectedContact() {
-        wd.findElement(By.xpath("//input[@value='DELETE']")).click();
+        click(By.xpath("//input[@value='DELETE']"));
         wd.switchTo().alert().accept();
     }
 }
