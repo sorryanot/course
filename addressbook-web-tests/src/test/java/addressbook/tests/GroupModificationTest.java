@@ -3,18 +3,15 @@ package addressbook.tests;
 import addressbook.model.GroupData;
 import org.testng.annotations.Test;
 
-public class GroupCreationTest extends TestBase {
+public class GroupModificationTest extends  TestBase{
 
     @Test
-    public void testGroupCreation() {
-
+    public void testGroupModification(){
         app.getNavigationHelper().goToGroupPage();
-        app.getGroupHelper().initGroupCreation();
+        app.getGroupHelper().selectedGroup();
+        app.getGroupHelper().initGroupModification();
         app.getGroupHelper().fillGroupForm(new GroupData("test1", "test2", "test3"));
-        app.getGroupHelper().submitGroupCreation();
+        app.getGroupHelper().submitGroupModification();
         app.getGroupHelper().returnToGroupPage();
     }
-
 }
-
-

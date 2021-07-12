@@ -19,7 +19,4 @@ public class NavigationHelper extends HelperBase {
         click(By.linkText("GROUPS"));
     }
 
-    public void logout() {
-        click(By.linkText("LOGOUT"));
-    }
 }
