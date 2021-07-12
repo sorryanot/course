@@ -11,5 +11,13 @@ public class GroupDeletionTest extends TestBase{
         deleteSelectedGroup();
         returnToGroupPage();
     }
+    @Test
+    public void testContactDeletion(){
+        goToHomePage();
+        selectedGroup();
+        deleteSelectedContact();
+        goToHomePage();
+
+    }
 
 }

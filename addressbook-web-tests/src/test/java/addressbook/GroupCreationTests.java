@@ -15,11 +15,11 @@ public class GroupCreationTests extends TestBase{
         logout();
     }
     @Test
-    public void addNewContact(){
+    public void testAddNewContact(){
         goToaddNewContact();
         fillSingleForm(new SimpleData("Petya", "Petrov", "Petrov1990@mail.ru"));
         submitSingleForm();
-        returnToHomePage();
+        goToHomePage();
     }
 
 }

@@ -35,7 +35,7 @@ public class TestBase {
         wd.findElement(By.xpath("//input[@value='LOGIN']")).click();
     }
 
-    public void returnToHomePage() {
+    public void goToHomePage() {
         wd.findElement(By.linkText("HOME")).click();
     }
 
@@ -90,5 +90,9 @@ public class TestBase {
 
     protected void selectedGroup() {
         wd.findElement(By.name("selected[]")).click();
+    }
+    protected void deleteSelectedContact(){
+        wd.findElement(By.xpath("//input[@value='DELETE']")).click();
+        wd.switchTo().alert().accept();
     }
 }
