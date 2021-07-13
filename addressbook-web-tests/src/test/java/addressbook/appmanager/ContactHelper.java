@@ -3,6 +3,10 @@ package addressbook.appmanager;
 import addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends BaseHelper {
 
@@ -49,11 +53,23 @@ public class ContactHelper extends BaseHelper {
         click(By.linkText("HOME"));
     }
 
-    public void selectedContact() {
-        click(By.name("selected[]"));
+    public void selectedContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+        for (WebElement element : elements) {
+            String name = element.getText();
+            ContactData contact = new ContactData(name, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
+
 }
