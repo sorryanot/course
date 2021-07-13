@@ -20,7 +20,7 @@ public class ContactHelper extends BaseHelper {
         type(By.name("email"),simpleData.getEmail());
     }
 
-    public void goToAddNewContactPage() {
+    public void initContactCreation() {
         click(By.linkText("ADD_NEW"));
     }
     public void deleteSelectedContact() {
