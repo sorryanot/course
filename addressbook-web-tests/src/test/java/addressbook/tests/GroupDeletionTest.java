@@ -5,26 +5,26 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import java.util.Set;
 
 public class GroupDeletionTest extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
         app.getNavigationHelper().goToGroupPage();
-        if (!app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().create(new GroupData("test1", "test2", null));
+        if (app.getGroupHelper().all().size()==0) {
+            app.getGroupHelper().create(new GroupData().withName("test1"));
         }
     }
 
     @Test
     public void testGroupDeletion() {
-        List<GroupData> before = app.getGroupHelper().getList();
-        int index = before.size() - 1;
-        app.getGroupHelper().deletion(index);
-        List<GroupData> after = app.getGroupHelper().getList();
+        Set<GroupData> before = app.getGroupHelper().all();
+        GroupData deletedGroup = before.iterator().next();
+        app.getGroupHelper().deletion(deletedGroup);
+        Set<GroupData> after = app.getGroupHelper().all();
         Assert.assertEquals(after.size(), before.size() - 1);
 
-        before.remove(index);
+        before.remove(deletedGroup);
         Assert.assertEquals(before, after);
     }
 

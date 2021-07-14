@@ -4,8 +4,7 @@ import addressbook.model.GroupData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class GroupCreationTest extends TestBase {
 
@@ -13,16 +12,14 @@ public class GroupCreationTest extends TestBase {
     public void testGroupCreation() {
 
         app.getNavigationHelper().goToGroupPage();
-        List<GroupData> before = app.getGroupHelper().getList();
-        GroupData group = new GroupData("test1", null, null);
+        Set<GroupData> before = app.getGroupHelper().all();
+        GroupData group = new GroupData().withName("test1");
         app.getGroupHelper().create(group);
-        List<GroupData> after = app.getGroupHelper().getList();
+        Set<GroupData> after = app.getGroupHelper().all();
         Assert.assertEquals(after.size(), before.size() + 1);
 
+        group.withId(after.stream().mapToInt((g)->g.getId()).max().getAsInt());
         before.add(group);
-        Comparator<? super GroupData> byId = Comparator.comparingInt(GroupData::getId);
-        before.sort(byId);
-        after.sort(byId);
         Assert.assertEquals(before, after);
     }
 

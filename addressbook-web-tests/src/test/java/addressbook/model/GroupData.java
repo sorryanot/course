@@ -3,40 +3,30 @@ package addressbook.model;
 import java.util.Objects;
 
 public class GroupData {
-    public int getId() {
-        return id;
-    }
 
-    private int id;
-    private final String groupName;
-    private final String groupHeader;
-    private final String groupFooter;
+    private int id = Integer.MAX_VALUE;
+    private String name;
+    private String header;
+    private String footer;
 
-    public GroupData(int id, String groupName, String groupHeader, String groupFooter) {
+    public GroupData withId(int id) {
         this.id = id;
-        this.groupName = groupName;
-        this.groupHeader = groupHeader;
-        this.groupFooter = groupFooter;
+        return this;
     }
 
-
-    public GroupData(String groupName, String groupHeader, String groupFooter) {
-        this.id = Integer.MAX_VALUE;
-        this.groupName = groupName;
-        this.groupHeader = groupHeader;
-        this.groupFooter = groupFooter;
+    public GroupData withName(String name) {
+        this.name = name;
+        return this;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public GroupData withHeader(String header) {
+        this.header = header;
+        return this;
     }
 
-    public String getGroupHeader() {
-        return groupHeader;
-    }
-
-    public String getGroupFooter() {
-        return groupFooter;
+    public GroupData withFooter(String footer) {
+        this.footer = footer;
+        return this;
     }
 
     @Override
@@ -44,11 +34,28 @@ public class GroupData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupData groupData = (GroupData) o;
-        return Objects.equals(groupName, groupData.groupName);
+        return id == groupData.id && Objects.equals(name, groupData.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupName);
+        return Objects.hash(id, name);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public String getFooter() {
+        return footer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
 }
