@@ -3,15 +3,24 @@ package addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-    private final String firstName;
-    private final String lastName;
-    private final String email;
+    private  String firstName;
+    private  String lastName;
+    private  String email;
 
-
-    public ContactData(String firstName, String lastName, String email) {
+    public ContactData withFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
+    }
+
+    public ContactData withLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public ContactData withEmail(String email) {
         this.email = email;
+        return this;
+
     }
 
     public String getFirstName() {

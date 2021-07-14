@@ -80,7 +80,7 @@ public class ContactHelper extends BaseHelper {
             List<WebElement> innerElement = element.findElements(By.tagName("td"));
             String lastName = innerElement.get(1).getText();
             String firstName = innerElement.get(2).getText();
-            ContactData contact = new ContactData(firstName, lastName, null);
+            ContactData contact = new ContactData().withFirstName(firstName).withLastName(lastName);
             contacts.add(contact);
         }
         return contacts;
