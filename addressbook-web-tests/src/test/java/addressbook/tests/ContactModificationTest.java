@@ -7,14 +7,15 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class ContactModificationTest extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
         app.getNavigationHelper().goToHomePage();
-        if (!app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().create(new ContactData().withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru"));
+        if (app.getContactHelper().all().size() == 0) {
+            app.getContactHelper().create(new ContactData()
+                    .withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru")
+                    .withHomePhone("222").withMobilePhone("333").withWorkPhone("444").withAddress("sizam street"));
         }
     }
 
@@ -25,8 +26,8 @@ public class ContactModificationTest extends TestBase {
         ContactData contact = new ContactData()
                 .withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru").withId(modifiedContact.getId());
         app.getContactHelper().modification(contact);
+        assertThat(app.getContactHelper().count(), equalTo(before.size()));
         Contacts after = app.getContactHelper().all();
-        assertEquals(after.size(), before.size());
         assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
     }
 }
