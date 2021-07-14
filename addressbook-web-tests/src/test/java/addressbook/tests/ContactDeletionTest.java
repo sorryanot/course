@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactDeletionTest extends TestBase {
     @BeforeMethod
@@ -18,13 +19,13 @@ public class ContactDeletionTest extends TestBase {
 
     @Test
     public void testContactDeletion() {
-        List<ContactData> before = app.getContactHelper().getList();
-        int index = before.size() - 1;
-        app.getContactHelper().deletion(index);
-        List<ContactData> after = app.getContactHelper().getList();
+        Set<ContactData> before = app.getContactHelper().all();
+        ContactData deletedContact = before.iterator().next();
+        app.getContactHelper().deletion(deletedContact);
+        Set<ContactData> after = app.getContactHelper().all();
         Assert.assertEquals(after.size(), before.size() - 1);
 
-        before.remove(index);
+        before.remove(deletedContact);
         Assert.assertEquals(before, after);
 
     }

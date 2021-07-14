@@ -77,7 +77,7 @@ public class GroupHelper extends BaseHelper {
     }
 
     public Set<GroupData> all() {
-        Set<GroupData> groups = new HashSet<GroupData>();
+        Set<GroupData> groups = new HashSet<>();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             String name = element.getText();
