@@ -13,17 +13,17 @@ public class GroupCreationTest extends TestBase {
     public void testGroupCreation() {
 
         app.getNavigationHelper().goToGroupPage();
-        List<GroupData> before = app.getGroupHelper().getGroupList();
-        GroupData group=new GroupData("test1", null, null);
-        app.getGroupHelper().createGroup(group);
-        List<GroupData> after = app.getGroupHelper().getGroupList();
+        List<GroupData> before = app.getGroupHelper().getList();
+        GroupData group = new GroupData("test1", null, null);
+        app.getGroupHelper().create(group);
+        List<GroupData> after = app.getGroupHelper().getList();
         Assert.assertEquals(after.size(), before.size() + 1);
 
         before.add(group);
-        Comparator<? super GroupData> byId= Comparator.comparingInt(GroupData::getId);
+        Comparator<? super GroupData> byId = Comparator.comparingInt(GroupData::getId);
         before.sort(byId);
         after.sort(byId);
-        Assert.assertEquals(before,after);
+        Assert.assertEquals(before, after);
     }
 
 }
