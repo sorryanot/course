@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +49,7 @@ public class ContactHelper extends BaseHelper {
         submitContactForm();
         returnToHomePage();
     }
+
     public void modification(ContactData contact) {
         selectedById(contact.getId());
         initContactModification();
@@ -57,11 +57,7 @@ public class ContactHelper extends BaseHelper {
         submitContactModification();
         returnToHomePage();
     }
-    public void deletion(int index) {
-        selected(index);
-        deleteSelected();
-        returnToHomePage();
-    }
+
     public void deletion(ContactData contact) {
         selectedById(contact.getId());
         deleteSelected();
@@ -72,9 +68,6 @@ public class ContactHelper extends BaseHelper {
         click(By.linkText("HOME"));
     }
 
-    public void selected(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
-    }
     public void selectedById(int id) {
         wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
@@ -83,18 +76,6 @@ public class ContactHelper extends BaseHelper {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getList() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
-        List<WebElement> elements = wd.findElements(By.name("entry"));
-        for (WebElement element : elements) {
-            List<WebElement> innerElement = element.findElements(By.tagName("td"));
-            String lastName = innerElement.get(1).getText();
-            String firstName = innerElement.get(2).getText();
-            ContactData contact = new ContactData().withFirstName(firstName).withLastName(lastName);
-            contacts.add(contact);
-        }
-        return contacts;
-    }
     public Set<ContactData> all() {
         Set<ContactData> contacts = new HashSet<>();
         List<WebElement> elements = wd.findElements(By.name("entry"));

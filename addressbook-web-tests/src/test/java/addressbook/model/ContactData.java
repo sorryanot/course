@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class ContactData {
     private int id = Integer.MAX_VALUE;
-    private  String firstName;
-    private  String lastName;
-    private  String email;
+    private String firstName;
+    private String lastName;
+    private String email;
 
     public ContactData withId(int id) {
         this.id = id;

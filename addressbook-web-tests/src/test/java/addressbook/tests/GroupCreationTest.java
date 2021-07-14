@@ -1,10 +1,15 @@
 package addressbook.tests;
 
 import addressbook.model.GroupData;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTest extends TestBase {
 
@@ -21,6 +26,7 @@ public class GroupCreationTest extends TestBase {
         group.withId(after.stream().mapToInt((g)->g.getId()).max().getAsInt());
         before.add(group);
         Assert.assertEquals(before, after);
+        assertThat(after, equalTo(before));
     }
 
 }
