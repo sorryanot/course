@@ -18,8 +18,6 @@ public class ContactCreationTest extends TestBase {
 
         contact.withId(after.stream().mapToInt((g)->g.getId()).max().getAsInt());
         before.add(contact);
-        System.out.println("before"+before);
-        System.out.println("after"+after);
         Assert.assertEquals(before, after);
     }
 }
