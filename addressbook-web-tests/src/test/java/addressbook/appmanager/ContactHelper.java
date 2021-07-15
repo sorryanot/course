@@ -133,8 +133,8 @@ public class ContactHelper extends BaseHelper {
     }
 
     public ContactData infoFromDetailsForm(ContactData contact) {
-        JavascriptExecutor js = (JavascriptExecutor) wd;
         initContactDetailsById(contact.getId());
+        JavascriptExecutor js = (JavascriptExecutor) wd;
         String[] fs = wd.findElement(By.xpath("//*[@id=\"content\"]/b")).getText().split("\\s");
         String firstName = fs[0];
         String lastName = fs[1];

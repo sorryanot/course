@@ -50,25 +50,25 @@ public class ContactDateGenerator {
     private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        try (Writer writer = new FileWriter(file);) {
+            writer.write(json);
+        }
     }
 
     private static void save(List<ContactData> contacts, File file) throws IOException {
-        Writer writer = new FileWriter(file);
-        for (ContactData contact : contacts) {
-            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstName(), contact.getLastName(), contact.getAddress(), contact.getEmail()
-                    , contact.getWorkPhone(), contact.getMobilePhone(), contact.getHomePhone()));
+        try (Writer writer = new FileWriter(file);) {
+            for (ContactData contact : contacts) {
+                writer.write(String.format("%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstName(), contact.getLastName(), contact.getAddress(), contact.getEmail()
+                        , contact.getWorkPhone(), contact.getMobilePhone(), contact.getHomePhone()));
+            }
         }
-        writer.close();
     }
 
     private static List<ContactData> generateContacts(int count) {
         List<ContactData> contacts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            contacts.add(new ContactData().withFirstName(String.format("Gena %s", i))
-                    .withLastName(String.format("Pupkin %s", i)).withAddress(String.format("sizam street %s", i))
+            contacts.add(new ContactData().withFirstName(String.format("Gena%s", i))
+                    .withLastName(String.format("Pupkin%s", i)).withAddress(String.format("sizam street %s", i))
                     .withEmail(String.format("gena%s@mail.ru", i)).withWorkPhone(String.format("12 %s", i))
                     .withMobilePhone(String.format("23 %s", i)).withHomePhone(String.format("34 %s", i)));
         }
