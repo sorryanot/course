@@ -17,7 +17,7 @@ public class ContactInformationsTests extends TestBase {
         if (app.getContactHelper().all().size() == 0) {
             app.getContactHelper().create(new ContactData()
                     .withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru")
-                    .withHomePhone("222 222").withMobilePhone("+333").withWorkPhone("444").withAddress("sizam street"));
+                    .withHomePhone("222 222").withMobilePhone("333").withWorkPhone("+444").withAddress("sizam street"));
         }
     }
 
