@@ -3,6 +3,7 @@ package addressbook.appmanager;
 import addressbook.model.ContactData;
 import addressbook.model.Contacts;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -126,4 +127,25 @@ public class ContactHelper extends BaseHelper {
     public void initContactModificationById(int id) {
         wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
+
+    public void initContactDetailsById(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']", id))).click();
+    }
+
+    public ContactData infoFromDetailsForm(ContactData contact) {
+        JavascriptExecutor js = (JavascriptExecutor) wd;
+        initContactDetailsById(contact.getId());
+        String[] fs = wd.findElement(By.xpath("//*[@id=\"content\"]/b")).getText().split("\\s");
+        String firstName = fs[0];
+        String lastName = fs[1];
+        String email = wd.findElement(By.xpath("//*[@id=\"content\"]/a")).getText();
+        String address = (String) js.executeScript("var value = document.evaluate(\"//*[@id='content']/br[1]/following::text()[1]\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;");
+        String homePhone = ((String) js.executeScript("var value = document.evaluate(\"//*[@id='content']/br[3]/following::text()[1]\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;")).substring(2);
+        String mobilePhone = ((String) js.executeScript("var value = document.evaluate(\"//*[@id='content']/br[4]/following::text()[1]\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;")).substring(2);
+        String workPhone = ((String) js.executeScript("var value = document.evaluate(\"//*[@id='content']/br[5]/following::text()[1]\",document, null, XPathResult.STRING_TYPE, null ); return value.stringValue;")).substring(2);
+
+        return new ContactData().withId(contact.getId()).withFirstName(firstName).withLastName(lastName).withAddress(address)
+                .withMobilePhone(mobilePhone).withWorkPhone(workPhone).withHomePhone(homePhone).withEmail(email);
+    }
 }
+

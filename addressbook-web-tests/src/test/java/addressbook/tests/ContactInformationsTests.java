@@ -22,7 +22,25 @@ public class ContactInformationsTests extends TestBase {
     }
 
     @Test
-    public void testContactPhones() {
+    public void testContactInfoDetails() {
+        app.getNavigationHelper().goToHomePage();
+        ContactData contact = app.getContactHelper().all().iterator().next();
+        ContactData contactInfoFromEditForm = app.getContactHelper().infoFromEditForm(contact);
+        ContactData contactInfoFromDetailsForm = app.getContactHelper().infoFromDetailsForm(contact);
+
+        assertThat(contactInfoFromDetailsForm.getFirstName(), equalTo(contactInfoFromEditForm.getFirstName()));
+        assertThat(contactInfoFromDetailsForm.getLastName(), equalTo(contactInfoFromEditForm.getLastName()));
+        assertThat(contactInfoFromDetailsForm.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
+        assertThat(contactInfoFromDetailsForm.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
+        assertThat(cleaned(contactInfoFromDetailsForm.getWorkPhone()), equalTo(cleaned(contactInfoFromEditForm.getWorkPhone())));
+        assertThat(cleaned(contactInfoFromDetailsForm.getHomePhone()), equalTo(cleaned(contactInfoFromEditForm.getHomePhone())));
+        assertThat(cleaned(contactInfoFromDetailsForm.getMobilePhone()), equalTo(cleaned(contactInfoFromEditForm.getMobilePhone())));
+
+
+    }
+
+    @Test
+    public void testContactInfoEdit() {
         app.getNavigationHelper().goToHomePage();
         ContactData contact = app.getContactHelper().all().iterator().next();
         ContactData contactInfoFromEditForm = app.getContactHelper().infoFromEditForm(contact);
@@ -39,6 +57,7 @@ public class ContactInformationsTests extends TestBase {
                 .collect(Collectors.joining("\n"));
 
     }
+
 
     public static String cleaned(String phone) {
         return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
