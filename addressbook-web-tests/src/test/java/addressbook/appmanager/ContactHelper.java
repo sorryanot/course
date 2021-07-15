@@ -19,14 +19,14 @@ public class ContactHelper extends BaseHelper {
         click(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData simpleData) {
-        type(By.name("firstname"), simpleData.getFirstName());
-        type(By.name("lastname"), simpleData.getLastName());
-        type(By.name("home"), simpleData.getHomePhone());
-        type(By.name("mobile"), simpleData.getMobilePhone());
-        type(By.name("work"), simpleData.getWorkPhone());
-        type(By.name("email"), simpleData.getEmail());
-        type(By.name("address"), simpleData.getAddress());
+    public void fillContactForm(ContactData contactData) {
+        type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("lastname"), contactData.getLastName());
+        type(By.name("home"), contactData.getHomePhone());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
+        type(By.name("email"), contactData.getEmail());
+        type(By.name("address"), contactData.getAddress());
     }
 
     public void initContactCreation() {
