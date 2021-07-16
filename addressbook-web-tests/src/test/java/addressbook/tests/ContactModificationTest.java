@@ -2,32 +2,53 @@ package addressbook.tests;
 
 import addressbook.model.ContactData;
 import addressbook.model.Contacts;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactModificationTest extends TestBase {
-    @BeforeMethod
-    public void ensurePreconditions() {
-        app.getNavigationHelper().goToHomePage();
-        if (app.getContactHelper().all().size() == 0) {
-            app.getContactHelper().create(new ContactData()
-                    .withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru")
-                    .withHomePhone("222").withMobilePhone("333").withWorkPhone("444").withAddress("sizam street"));
+
+    @DataProvider
+    public Iterator<Object[]> validContact() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
+            return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
     }
 
-    @Test
-    public void testContactModification() {
-        Contacts before = app.getContactHelper().all();
-        ContactData modifiedContact = before.iterator().next();
-        ContactData contact = new ContactData()
-                .withFirstName("Petya").withLastName("Petrov").withEmail("Petrov1990@mail.ru").withId(modifiedContact.getId());
-        app.getContactHelper().modification(contact);
-        assertThat(app.getContactHelper().count(), equalTo(before.size()));
-        Contacts after = app.getContactHelper().all();
-        assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
+    @Test(dataProvider = "validContact")
+    public void testContactModification(ContactData contact) {
+        app.getNavigationHelper().goToHomePage();
+        if (app.getContactHelper().all().size() == 0) {
+            app.getContactHelper().create(contact);
+        }
+            Contacts before = app.getContactHelper().all();
+            ContactData modifiedContact = before.iterator().next();
+            app.getContactHelper().modification(contact.withId(modifiedContact.getId()));
+            assertThat(app.getContactHelper().count(), equalTo(before.size()));
+            Contacts after = app.getContactHelper().all();
+            assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
+
     }
 }
