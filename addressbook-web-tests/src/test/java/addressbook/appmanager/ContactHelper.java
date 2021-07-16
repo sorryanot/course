@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -19,7 +21,24 @@ public class ContactHelper extends BaseHelper {
         click(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData, boolean creation) {
+        type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("lastname"), contactData.getLastName());
+        type(By.name("home"), contactData.getHomePhone());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
+        type(By.name("email"), contactData.getEmail());
+        type(By.name("address"), contactData.getAddress());
+
+        if(creation){
+            if(contactData.getGroup()!=null){
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            }else {
+                Assert.assertFalse(isElementPresent(By.name("new_group")));
+            }
+        }
+    }
+    public void fillContactFormWithOutGroup(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("lastname"), contactData.getLastName());
         type(By.name("home"), contactData.getHomePhone());
@@ -49,7 +68,7 @@ public class ContactHelper extends BaseHelper {
 
     public void create(ContactData contact) {
         initContactCreation();
-        fillContactForm(contact);
+        fillContactForm(contact,false);
         submitContactForm();
         contactCash = null;
         returnToHomePage();
@@ -58,7 +77,7 @@ public class ContactHelper extends BaseHelper {
     public void modification(ContactData contact) {
         selectedById(contact.getId());
         initContactModification();
-        fillContactForm(contact);
+        fillContactFormWithOutGroup(contact);
         submitContactModification();
         contactCash = null;
         returnToHomePage();
