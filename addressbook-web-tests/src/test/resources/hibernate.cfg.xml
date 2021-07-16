@@ -5,10 +5,10 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd" >
 
-        <hibernate-configuration>
+<hibernate-configuration>
 
 
-        <session-factory>
+    <session-factory>
 
         <!-- Database connection settings -->
 
@@ -50,7 +50,8 @@
 
 
         <mapping class="addressbook.model.GroupData"/>
+        <mapping class="addressbook.model.ContactData"/>
 
-        </session-factory>
+    </session-factory>
 
-        </hibernate-configuration>
+</hibernate-configuration>

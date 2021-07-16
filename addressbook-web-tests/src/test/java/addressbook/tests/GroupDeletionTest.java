@@ -12,15 +12,15 @@ public class GroupDeletionTest extends TestBase {
     @Test(dataProvider = "validGroups")
     public void testGroupDeletion(GroupData group) {
         app.getNavigationHelper().goToGroupPage();
-        if (app.getGroupHelper().all().size() == 0) {
+        if (app.db().groups().size() == 0) {
             app.getGroupHelper().create(group);
         }
 
-        Groups before = app.getGroupHelper().all();
+        Groups before = app.db().groups();
         GroupData deletedGroup = before.iterator().next();
         app.getGroupHelper().deletion(deletedGroup);
         assertThat(app.getGroupHelper().count(), equalTo(before.size() - 1));
-        Groups after = app.getGroupHelper().all();
+        Groups after = app.db().groups();
         assertThat(after, equalTo(before.withOut(deletedGroup)));
     }
 

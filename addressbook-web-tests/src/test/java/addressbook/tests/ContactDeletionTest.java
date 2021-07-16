@@ -13,14 +13,14 @@ public class ContactDeletionTest extends TestBase {
     @Test(dataProvider = "validContact")
     public void testContactDeletion(ContactData contact) {
         app.getNavigationHelper().goToHomePage();
-        if (app.getContactHelper().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             app.getContactHelper().create(contact);
         }
-        Contacts before = app.getContactHelper().all();
+        Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
         app.getContactHelper().deletion(deletedContact);
         assertThat(app.getContactHelper().count(), equalTo(before.size() - 1));
-        Contacts after = app.getContactHelper().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withOut(deletedContact)));
 
     }

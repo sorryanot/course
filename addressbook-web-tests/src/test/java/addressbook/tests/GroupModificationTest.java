@@ -12,14 +12,14 @@ public class GroupModificationTest extends TestBase {
     @Test(dataProvider = "validGroups")
     public void testGroupModification(GroupData group) {
         app.getNavigationHelper().goToGroupPage();
-        if (app.getGroupHelper().all().size() == 0) {
+        if (app.db().groups().size() == 0) {
             app.getGroupHelper().create(group);
         }
-        Groups before = app.getGroupHelper().all();
+        Groups before = app.db().groups();
         GroupData modifiedGroup = before.iterator().next();
         app.getGroupHelper().modification(group.withId(modifiedGroup.getId()));
         assertThat(app.getGroupHelper().count(), equalTo(before.size()));
-        Groups after = app.getGroupHelper().all();
+        Groups after = app.db().groups();
         assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
     }
 

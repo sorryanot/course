@@ -13,10 +13,10 @@ public class ContactCreationTest extends TestBase {
     @Test(dataProvider = "validContact")
     public void testContactCreation(ContactData contact) {
         app.getNavigationHelper().goToHomePage();
-        Contacts before = app.getContactHelper().all();
+        Contacts before = app.db().contacts();
         app.getContactHelper().create(contact);
         assertThat(app.getContactHelper().count(), equalTo(before.size() + 1));
-        Contacts after = app.getContactHelper().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(
                 before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }

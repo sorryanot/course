@@ -15,11 +15,11 @@ public class ContactInformationsTests extends TestBase {
     @Test(dataProvider = "validContact")
     public void testContactInfoDetails(ContactData contact) {
         app.getNavigationHelper().goToHomePage();
-        if (app.getContactHelper().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             app.getContactHelper().create(contact);
         }
         app.getNavigationHelper().goToHomePage();
-        contact = app.getContactHelper().all().iterator().next();
+        contact = app.db().contacts().iterator().next();
         ContactData contactInfoFromEditForm = app.getContactHelper().infoFromEditForm(contact);
         ContactData contactInfoFromDetailsForm = app.getContactHelper().infoFromDetailsForm(contact);
 
@@ -37,16 +37,23 @@ public class ContactInformationsTests extends TestBase {
     @Test(dataProvider = "validContact")
     public void testContactInfoEdit(ContactData contact) {
         app.getNavigationHelper().goToHomePage();
-        if (app.getContactHelper().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             app.getContactHelper().create(contact);
         }
         app.getNavigationHelper().goToHomePage();
-        contact = app.getContactHelper().all().iterator().next();
+        contact = app.db().contacts().iterator().next();
         ContactData contactInfoFromEditForm = app.getContactHelper().infoFromEditForm(contact);
 
-        assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+        //assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
         assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
         assertThat(contact.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
+        assertThat(contact.getFirstName(), equalTo(contactInfoFromEditForm.getFirstName()));
+        assertThat(contact.getLastName(), equalTo(contactInfoFromEditForm.getLastName()));
+        assertThat(contact.getWorkPhone(), equalTo(contactInfoFromEditForm.getWorkPhone()));
+        assertThat(contact.getMobilePhone(), equalTo(contactInfoFromEditForm.getMobilePhone()));
+        assertThat(contact.getHomePhone(), equalTo(contactInfoFromEditForm.getHomePhone()));
+
+
     }
 
     private String mergePhones(ContactData contact) {
