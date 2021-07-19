@@ -106,7 +106,7 @@ public class ContactHelper extends BaseHelper {
         returnToHomePage();
     }
 
-    public void deleteInGroup(ContactData contact) {
+    public void deleteFromGroup(ContactData contact) {
         selectedById(contact.getId());
         initContactDeleteInGroup(contact);
         contactCash = null;

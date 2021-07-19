@@ -36,7 +36,7 @@ public class ContactAddAndDeleteGroup extends TestBase {
         }
         Contacts before = app.db().contacts();
         ContactData deleteContactFromGroup = before.iterator().next();
-        app.getContactHelper().deleteInGroup(deleteContactFromGroup);
+        app.getContactHelper().deleteFromGroup(deleteContactFromGroup);
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before));
 
