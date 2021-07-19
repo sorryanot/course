@@ -30,14 +30,15 @@ public class ContactHelper extends BaseHelper {
         type(By.name("email"), contactData.getEmail());
         type(By.name("address"), contactData.getAddress());
 
-        if(creation){
-            if(contactData.getGroup()!=null){
+        if (creation) {
+            if (contactData.getGroup() != null) {
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-            }else {
+            } else {
                 Assert.assertFalse(isElementPresent(By.name("new_group")));
             }
         }
     }
+
     public void fillContactFormWithOutGroup(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("lastname"), contactData.getLastName());
@@ -65,10 +66,25 @@ public class ContactHelper extends BaseHelper {
         click(By.xpath("//input[@value='UPDATE']"));
     }
 
+    public void initContactAddInGroup() {
+        click(By.xpath("//input[@name='add']"));
+    }
+
+    public void initContactDeleteInGroup(ContactData contact) {
+        initContactDetailsById(contact.getId());
+        String group = wd.findElement(By.xpath("//*[@id='content']/i/a")).getText();
+        wd.navigate().back();
+        click(By.xpath("//option[text()='"+group+"']"));
+        selectedById(contact.getId());
+        click(By.xpath("//input[@name='remove']"));
+
+
+    }
+
 
     public void create(ContactData contact) {
         initContactCreation();
-        fillContactForm(contact,false);
+        fillContactForm(contact, false);
         submitContactForm();
         contactCash = null;
         returnToHomePage();
@@ -82,6 +98,21 @@ public class ContactHelper extends BaseHelper {
         contactCash = null;
         returnToHomePage();
     }
+
+    public void addInGroup(ContactData contact) {
+        selectedById(contact.getId());
+        initContactAddInGroup();
+        contactCash = null;
+        returnToHomePage();
+    }
+
+    public void deleteInGroup(ContactData contact) {
+        selectedById(contact.getId());
+        initContactDeleteInGroup(contact);
+        contactCash = null;
+        returnToHomePage();
+    }
+
 
     public void deletion(ContactData contact) {
         selectedById(contact.getId());
@@ -166,5 +197,6 @@ public class ContactHelper extends BaseHelper {
         return new ContactData().withId(contact.getId()).withFirstName(firstName).withLastName(lastName).withAddress(address)
                 .withMobilePhone(mobilePhone).withWorkPhone(workPhone).withHomePhone(homePhone).withEmail(email);
     }
+
 }
 
